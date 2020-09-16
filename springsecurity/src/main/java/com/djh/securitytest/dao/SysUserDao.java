@@ -8,9 +8,11 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 /**
+ * 系统用户刀
  * (SysUser)表数据库访问层
  *
  * @author makejava
+ * @date 2020/08/07
  * @since 2020-07-31 13:57:24
  */
 public interface SysUserDao {
@@ -68,5 +70,11 @@ public interface SysUserDao {
     @Select("SELECT * FROM sys_user WHERE id = #{id}")
     SysUser selectById(Integer id);
 
+    /**
+     * 选择的名字
+     *
+     * @param name 的名字
+     * @return {@link SysUser}
+     */
     SysUser selectByName(String name);
 }

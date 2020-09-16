@@ -37,3 +37,4 @@ mybatis:
 logging:
   level:
     com.djh: debug
+    org.springframework: debug

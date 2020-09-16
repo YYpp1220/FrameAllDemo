@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
     private SysUserRoleServiceImpl userRoleService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
     /**
      * 重写 loadUserByUsername 方法，参数是用户输入的用户名。返回值是UserDetails
@@ -47,6 +48,8 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         // 从数据库中取出用户信息
         SysUser user = userService.selectByName(username);
+
+        System.out.println(passwordEncoder.encode(user.getPassword()));
 
         // 判断用户是否存在
         if(user == null) {
