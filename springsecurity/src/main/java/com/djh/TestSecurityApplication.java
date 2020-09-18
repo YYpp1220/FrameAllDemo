@@ -1,8 +1,10 @@
 package com.djh;
 
+import com.djh.securitytest.servlet.VerifyServlet;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -20,5 +22,18 @@ public class TestSecurityApplication {
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    /**
+     * 指数servlet登记
+     * 注入验证码servlet
+     * @return {@link ServletRegistrationBean} springBoot中的servlet注入类
+     */
+    @SuppressWarnings("rawtypes")
+    @Bean
+    public ServletRegistrationBean indexServletRegistration(){
+        ServletRegistrationBean<VerifyServlet> registration = new ServletRegistrationBean<>(new VerifyServlet());
+        registration.addUrlMappings("/getVerifyCode");
+        return registration;
     }
 }

@@ -1,5 +1,6 @@
 package com.djh.securitytest.config;
 
+import com.djh.securitytest.filter.VerifyFilter;
 import com.djh.securitytest.service.impl.CustomUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -40,6 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private CustomUserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    MyAuthenticationProvider authenticationProvider;
 
     @Autowired
     private DataSource dataSource;
@@ -76,10 +81,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             }
         });*/
         //使用 auth.userDetailsService() 方法替换掉默认的 userDetailsService
-        auth.userDetailsService(userDetailsService)
+        //auth.userDetailsService(userDetailsService)
                 //指定密码的加密方式
                 /* PasswordEncoder是一个密码加密接口，而BCryptPasswordEncoder是Spring Security提供的一个实现方法，我们也可以自己实现PasswordEncoder。不过Spring Security实现的BCryptPasswordEncoder已经足够强大 */
-                .passwordEncoder(passwordEncoder);
+                //.passwordEncoder(passwordEncoder);
+        auth.authenticationProvider(authenticationProvider);
     }
 
     /**
@@ -96,7 +102,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 // 如果有允许匿名的url，填在下面
-//                .antMatchers().permitAll()
+                .antMatchers("/getVerifyCode").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 // 设置登陆页
@@ -104,11 +110,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 设置登陆成功页
                 .defaultSuccessUrl("/").permitAll()
                 //登录失败后的错误url
-                .failureUrl("login/error")
+                .failureUrl("/login/error")
                 // 自定义登陆用户名和密码参数，默认为username和password
 //                .usernameParameter("username")
 //                .passwordParameter("password")
                 .and()
+                .addFilterBefore(new VerifyFilter(), UsernamePasswordAuthenticationFilter.class)
                 .logout().permitAll()
                 .and()
                 //自动登录
