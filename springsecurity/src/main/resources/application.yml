@@ -4,6 +4,9 @@ server:
     enabled: true
 
 spring:
+  # 启用覆盖bean
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/security?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
@@ -37,4 +40,4 @@ mybatis:
 logging:
   level:
     com.djh: debug
-    org.springframework: debug
+    # org.springframework: debug

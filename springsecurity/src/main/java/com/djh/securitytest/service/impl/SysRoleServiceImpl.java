@@ -41,6 +41,16 @@ public class SysRoleServiceImpl {
     }
 
     /**
+     * 通过实体作为筛选条件查询
+     *
+     * @param sysRole 实例对象
+     * @return 对象列表
+     */
+    public List<SysRole> queryAll(SysRole sysRole){
+        return this.sysRoleDao.queryAll(sysRole);
+    }
+
+    /**
      * 新增数据
      *
      * @param sysRole 实例对象
