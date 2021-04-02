@@ -1,0 +1,5 @@
+server:
+  port: 56020
+
+provider:
+  address: 127.0.0.1:56010
