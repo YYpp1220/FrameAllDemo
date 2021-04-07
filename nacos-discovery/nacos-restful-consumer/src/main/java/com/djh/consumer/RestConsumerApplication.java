@@ -2,6 +2,7 @@ package com.djh.consumer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
  * @date 2021/04/02
  */
 @SpringBootApplication
+@EnableDiscoveryClient
 public class RestConsumerApplication {
     public static void main(String[] args) {
         SpringApplication.run(RestConsumerApplication.class, args);
