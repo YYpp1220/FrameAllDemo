@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -30,8 +32,14 @@ public class RestConsumerController {
     @Autowired
     private LoadBalancerClient loadBalancerClient;
 
+    @Autowired
+    private ConfigurableApplicationContext configurableApplicationContext;
+
     @Value("${provider.address}")
     private String providerAddress;
+
+    @Value("${common.name}")
+    private String commonName;
 
     private static final String HTTP_TOP = "http://";
 
@@ -45,5 +53,13 @@ public class RestConsumerController {
         String providerStr = restTemplate.getForObject(uri + HTTP_TAIL, String.class);
         System.out.println("consumer | invoke" + providerStr);
         return "consumer | invoke" + providerStr;
+    }
+
+    @GetMapping("/configs")
+    public ResponseEntity<String> config () {
+        // return ResponseEntity.ok(commonName);
+        String nacosConfigStr = configurableApplicationContext.getEnvironment().getProperty("common.name");
+        assert nacosConfigStr != null;
+        return ResponseEntity.ok(nacosConfigStr);
     }
 }
