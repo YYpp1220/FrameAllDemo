@@ -6,4 +6,17 @@ spring:
         file-extension: yaml
         group: DEFAULT_GROUP
         # refresh-enabled: false
-        namespace: 65a3eb11-8431-4479-a13a-87c938ef97ee
+        # namespace: 65a3eb11-8431-4479-a13a-87c938ef97ee
+        namespace: 145eb198-38a2-4715-b2ef-64e079ad3864
+        extension-configs[0]:
+          data-id: ext-config-common01.yaml
+          group: COMMON_GROUP
+          refresh: true
+        extension-configs[1]:
+          data-id: ext-config-common02.yaml
+          group: COMMON_GROUP
+          refresh: true
+        extension-configs[2]:
+          data-id: ext-config-http.yaml
+          group: COMMON_GROUP
+          refresh: true

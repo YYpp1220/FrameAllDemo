@@ -58,8 +58,9 @@ public class RestConsumerController {
     @GetMapping("/configs")
     public ResponseEntity<String> config () {
         // return ResponseEntity.ok(commonName);
-        String nacosConfigStr = configurableApplicationContext.getEnvironment().getProperty("common.name");
-        assert nacosConfigStr != null;
-        return ResponseEntity.ok(nacosConfigStr);
+        String nacosConfigNameStr = configurableApplicationContext.getEnvironment().getProperty("common.name");
+        String nacosConfigAddrStr = configurableApplicationContext.getEnvironment().getProperty("common.addr");
+        assert nacosConfigNameStr != null;
+        return ResponseEntity.ok(nacosConfigNameStr + nacosConfigAddrStr);
     }
 }

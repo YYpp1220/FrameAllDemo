@@ -15,3 +15,7 @@ provider:
 nacos-restful-provider:
   ribbon:
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+
+logging:
+  level:
+    org.springframework: debug
